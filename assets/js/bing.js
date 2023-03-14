@@ -5,10 +5,10 @@ var bingZipLat;
 var bingZipLong;
 
 //get map and furniture data from bing
-function fetchBingData () {
+function fetchBingData (inputZip) {
     var bingState = ""; //&adminDistrict=
     var bingCity = ""; //&locality=
-    var bingZip = ("&postalCode="+(realtorZip.split("=")[1])); //30009
+    var bingZip = ("&postalCode="+(inputZip.split("=")[1])); //30009
     console.log("bingZip is:", bingZip);
     var bingAddress = "" //&addressLine=
 
@@ -77,18 +77,23 @@ function displayBingFurnCards (bingFurnObj) {
         for (var i=0;i<bingFurnArray.length;i++){
       //create card
       var cardDiv = document.createElement("div");
-      cardDiv.setAttribute("class", "card");
+      cardDiv.setAttribute("class", "card is-family-code is-flex-direction-column m-3 has-background-info-light is-size-7");
+      
       //create card-section
       var cardSection = document.createElement("div");
-      cardSection.setAttribute("class", "card-section");
+      cardSection.setAttribute("class", "card-section has-text-weight-semibold  has-text-link-dark is-size-7");
       cardSection.setAttribute("id", `addressF${i}`);
-      var f = bingFurnArray[i].Address //
-      var curAddress = `${f.addressLine}<br>${f.locality}, ${f.adminDistrict} ${f.postalCode}`;
+
+      var f = bingFurnArray[i].Address; //
+      var n = bingFurnArray[i].name;
+      var curAddress = `${n}<br>${f.addressLine}<br>${f.locality}, ${f.adminDistrict} ${f.postalCode}`;
       // console.log("current address is:", curAddress);
       cardSection.innerHTML = curAddress;
+
       //create card-stats
       var cardStats = document.createElement("div");
       cardStats.setAttribute("class", "card-stats");
+
       //create card-img
       var cardImg = document.createElement("img");
       cardImg.setAttribute("class", "card-img");
@@ -104,16 +109,7 @@ function displayBingFurnCards (bingFurnObj) {
       //create card-info
       var cardInfo = document.createElement("div");
       cardInfo.setAttribute("class", "card-info");
-      //create BR and BA
-    //   var bR = document.createElement("p");
-    //   bR.setAttribute("id", "br00");
-    //   bR.textContent = `BR: ${r.bedrooms}`;
-    //   var bA = document.createElement("p");
-    //   bA.setAttribute("id", "ba00");
-    //   bA.textContent = `BA: ${r.bathrooms}`;
-      //add br and ba to card-info
-    //   cardInfo.appendChild(bR);
-    //   cardInfo.appendChild(bA)
+
       //add card-img and card-ingo to card-stats
       cardStats.appendChild(cardImg);
       cardStats.appendChild(cardInfo);
@@ -123,6 +119,25 @@ function displayBingFurnCards (bingFurnObj) {
       cardDiv.appendChild(cardSection);
       //add card to houses class
       bingFurnitureElem.appendChild(cardDiv);
+
+      cardDiv.addEventListener('click', function (event) {
+        // console.log("clicked a card");
+        var clickedElem = event.target;
+        while (!(clickedElem.id)) {
+          // console.log("no id");
+          // console.log(clickedElem.parentNode);
+          clickedElem = clickedElem.parentNode;
+        //   if (clickedElem.id) {
+        //     if ((clickedElem.id)[0] !== "a") {
+        //       clickedElem = clickedElem.parentNode;
+        //     }
+        //   }
+  
+        }
+  
+        console.log("clickedElem.id is", clickedElem.id);
+  
+      });
     }
 
 
@@ -140,24 +155,30 @@ function displayBingData () {
 
     console.log("bingfurnarray is:", bingFurnArray);
 
-    for (var i=0;i<bingFurnArray.length; i++){
-        var pushPin;
-        // if (i==0){
-        //     pushPin = "?pushpin=";
-        // } else {
-            pushPin = "&pushpin=";
-        // }
+    var pushPin = "&pushpin=";
+
+    //add blue pins for furniture stores
+    for (var i=0; i<bingFurnArray.length; i++){
         var coords = bingFurnArray[i].point.coordinates;
         // console.log(coords);
         var stringToAdd = `${pushPin}${coords[0]}%2C${coords[1]};1;${i+1}`;
-        //`${pushPin}${coords[0]},${coords[1]};1;F${i+1}`;
         // console.log(`${pushPin}${coords[0]},${coords[1]};1;${i+1}`);
         bingMapString = bingMapString.concat(stringToAdd);
-        // console.log(bingMapString);
+        // console.log("furn string", bingMapString);
     }  
+
+    //add red pins for rental properties
+    for (var j=0; j<rentalArray.length; j++){
+        var coords = rentalArray[j];
+        // console.log(coords);
+        var stringToAdd = `${pushPin}${coords.latitude}%2C${coords.longitude};7;${j+1}`;
+        bingMapString = bingMapString.concat(stringToAdd);
+        // console.log("rental string", bingMapString);
+    }
+
     //removed string &mapLayer={mapLayer}&format={format}&mapMetadata={mapMetadata}
     bingMapString = bingMapString.concat(`&key=${bingAPIKey}`);
-    // console.log("display bing:", `${bingMapString}&key=${bingAPIKey}`);
+    console.log("display bing:", `${bingMapString}`);
     var bingMapElem = document.getElementById("map");
     bingMapElem.textContent = "";
     var newMap = document.createElement("img");

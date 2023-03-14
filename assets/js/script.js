@@ -45,10 +45,10 @@ function getRentalCoordsArray () {
 function fetchRentalData() {
 
   // temporarily use tmpRentalArray
-  // if (tmpRentalArray) {
-  //   rentalArray = tmpRentalArray;
-  //   return;
-  // }
+  if (tmpRentalArray) {
+    rentalArray = tmpRentalArray;
+    return;
+  }
   // the above should be removed when we're live with fetch
 
   const options = {
@@ -78,9 +78,10 @@ function fetchRentalData() {
 
       //save new array
       saveRentalData();
-      displayRentalData(rentalElem, rentalArray);
+      displayCardData(rentalElem, rentalArray);
       console.log(rentalArray);
-      loadGoogle(realtorZip);
+      // loadGoogle(realtorZip);
+
 
     })
     .catch(err => console.error(err));
@@ -113,11 +114,12 @@ function getStreetView(streetAddress) {
 }
 
 //load rental data from rentalArray into side bar
-function displayRentalData(currentElem, currentArray) { // rentalElem, rentalArray
-  //go through rental object and create cards for each element in array
+function displayCardData(currentElem, currentArray) { // rentalElem, rentalArray
+  
+  currentElem.textContent = "";
 
-  rentalElem.textContent = "";
-  for (var i = 0; i < rentalArray.length; i++) {
+  //go through rental object and create cards for each element in array
+  for (var i = 0; i < currentArray.length; i++) { //
 
     //create card
     var cardDiv = document.createElement("div");
@@ -125,16 +127,18 @@ function displayRentalData(currentElem, currentArray) { // rentalElem, rentalArr
     
     //create card-section
     var cardSection = document.createElement("div");
-    cardSection.setAttribute("class", "card-section has-text-weight-semibold  has-text-info-dark is-size-6");
+    cardSection.setAttribute("class", "card-section has-text-weight-semibold  has-text-danger-dark is-size-7");
     cardSection.setAttribute("id", `addressR${i}`);
-    var r = rentalArray[i];
 
+    var r = currentArray[i]; //
     var curAddress = `${r.addressLine1}<br>${r.city}, ${r.state} ${r.zipCode}`;
     // console.log("current address is:", curAddress);
     cardSection.innerHTML = curAddress;
+
     //create card-stats
     var cardStats = document.createElement("div");
     cardStats.setAttribute("class", "card-stats");
+
     //create card-img
     var cardImg = document.createElement("img");
     cardImg.setAttribute("class", "card-img");
@@ -155,10 +159,10 @@ function displayRentalData(currentElem, currentArray) { // rentalElem, rentalArr
     cardInfo.setAttribute("class", "card-info");
     //create BR and BA
     var bR = document.createElement("p");
-    bR.setAttribute("id", "br00");
+    // bR.setAttribute("id", "br00");
     bR.textContent = `BR: ${r.bedrooms}`;
     var bA = document.createElement("p");
-    bA.setAttribute("id", "ba00");
+    // bA.setAttribute("id", "ba00");
     bA.textContent = `BA: ${r.bathrooms}`;
     //add br and ba to card-info
     cardInfo.appendChild(bR);
@@ -172,6 +176,20 @@ function displayRentalData(currentElem, currentArray) { // rentalElem, rentalArr
     cardDiv.appendChild(cardSection);
     //add card to houses class
     currentElem.appendChild(cardDiv);
+
+    // handle card clicks for modal
+    cardDiv.addEventListener('click', function (event) {
+      var clickedElem = event.target;
+      while (!(clickedElem.id)) {
+
+        clickedElem = clickedElem.parentNode;
+
+      }
+      // console.log("clickedElem.id is", clickedElem.id);
+      // const modal = document.getElementById("modal");
+      // openModal(modal);
+    });
+    // cardDiv = document.querySelector(".card");
   }
 
 }
@@ -184,8 +202,11 @@ function loadRentalData() {
   if (rentalArray) {
     console.log("loading stored data for rentals");
     rentalArray = JSON.parse(rentalArray);
-    displayRentalData(rentalElem, rentalArray);
+    displayCardData(rentalElem, rentalArray);
     // loadGoogle(realtorZip);
+    var zipToPass = `&zipCode=${rentalArray[0].zipCode}`;
+    console.log(zipToPass);
+    fetchBingData (zipToPass);
   } else {
     console.log("no data in localStorage for rentals");
   }
@@ -198,24 +219,24 @@ zipFormElem.addEventListener('submit', function (event) {
   event.preventDefault();
   var zipCodeText = zipTextElem.value;
   if (+zipCodeText) {
-    console.log("zip code entered was:");
-    console.log(zipCodeText);
+    // console.log("zip code entered was:");
+    // console.log(zipCodeText);
     realtorZip = `&zipCode=${zipCodeText}`;
-    console.log("going to fetch with zip:", realtorZip);
+    // console.log("going to fetch with zip:", realtorZip);
     fetchRentalData();
     //temporary save and load location
 
     saveRentalData();
-    displayRentalData(rentalElem, rentalArray);
-    console.log(rentalArray);
-    loadGoogle(realtorZip);
-
-    //this section should be deleted after fetch is active
-
-  }
-  else {
+    displayCardData(rentalElem, rentalArray);
+    // console.log(rentalArray);
+    // loadGoogle(realtorZip);
+    fetchBingData (realtorZip);
+  } else {
     console.log("not a number");
   }
 });
+
+//modal event listener
+
 
 loadRentalData();
