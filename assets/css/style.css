@@ -30,27 +30,7 @@ body {
     width: 50%;
 }
 
-@media all and (max-width: 600px) {
-    .output-rows {
-        flex-wrap: wrap;
-        height: 200px;
-    }
 
-    .map {
-        width: 50%;
-        order: 3;
-    }
-
-    .houses {
-        width: 50%;
-        order: 1;
-    }
-
-    .furniture {
-        width: 50%;
-        order: 2;
-    }
-}
 
 .card {
     display: flex;
@@ -109,4 +89,29 @@ body {
 
 .card-section:hover {
     background-color: #93ceff;
+}
+
+@media all and (max-width: 600px) {
+
+    .output-rows {
+        display: flex;
+        flex-wrap: wrap;
+        height: 200px;
+    }
+
+    #map {
+        width: 100%;
+        order: 1;
+    }
+
+    .houses {
+        width: 50%;
+        order: 2;
+    }
+
+    .furniture {
+        width: 50%;
+        order: 3;
+    }
+
 }
