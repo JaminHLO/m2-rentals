@@ -20,10 +20,10 @@ var bingAPIKey = 'AiG4EPc6Fx1YkYlJcKu0BI-b5jWafgdxk4pQkefyU5iNYFa2wn0x24qyz8v4BY
 function fetchRentalData() {
 
   // temporarily use tmpRentalArray
-  if (tmpRentalArray) {
-    rentalArray = tmpRentalArray;
-    return;
-  }
+  // if (tmpRentalArray) {
+  //   rentalArray = tmpRentalArray;
+  //   return;
+  // }
   // the above should be removed when we're live with fetch
 
   const options = {
