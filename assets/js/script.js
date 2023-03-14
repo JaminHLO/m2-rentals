@@ -201,8 +201,9 @@ zipFormElem.addEventListener('submit', function (event) {
     fetchRentalData();
     //temporary save and load location
 
-    saveRentalData();
-    displayCardData(rentalElem, rentalArray);
+    // saveRentalData();
+    // displayCardData(rentalElem, rentalArray);
+    
     // console.log(rentalArray);
     // loadGoogle(realtorZip);
     fetchBingData (realtorZip);
