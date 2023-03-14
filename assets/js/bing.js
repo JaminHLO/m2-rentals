@@ -17,7 +17,7 @@ function fetchBingData (inputZip) {
     // extra options: &userLocation={userLocation}&userIp={userIp}&usermapView={usermapView}&includeNeighborhood={includeNeighborhood}&maxResults={maxResults}
     
     //get point location coordinates based on zip code
-    fetch(`http://dev.virtualearth.net/REST/v1/Locations?countryRegion=US${bingState}${bingCity}${bingZip}${bingAddress}&key=${bingAPIKey}`)
+    fetch(`https://dev.virtualearth.net/REST/v1/Locations?countryRegion=US${bingState}${bingCity}${bingZip}${bingAddress}&key=${bingAPIKey}`)
         .then(function (response) {
             if (!response.ok) {
                 console.log("error");
@@ -132,9 +132,7 @@ function displayBingFurnCards (bingFurnObj) {
         //       clickedElem = clickedElem.parentNode;
         //     }
         //   }
-  
         }
-  
         console.log("clickedElem.id is", clickedElem.id);
   
       });
