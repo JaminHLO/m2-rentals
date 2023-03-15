@@ -17,7 +17,7 @@ This website has been tested to be functional on Chrome, MS Edge, Brave, Samsung
 The site is accessible here: [Marvelous Rentals.](https://jaminhlo.github.io/m2-rentals/)
 
 ## Visuals
-![This is an image](./assets/images/homepage-screenshot.png)
+![This is an image](./assets/images/ss-m2r-01.jpg)
 
 
 ## Credits
