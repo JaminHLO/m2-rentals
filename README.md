@@ -1,4 +1,4 @@
-# Marvelous-Rentals
+# Marvelous-Rentals-Bing-Version
 
 ## Description
 
@@ -11,11 +11,10 @@ This website was designed for first time home-owners. It takes in a zip code and
 * [License](#License)
 
 ## Usage
-It is necessary to download this extension for usage: [CORS Unblock.](https://chrome.google.com/webstore/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino/related)
 
 This website has been tested to be functional on Chrome, MS Edge, Brave, Samsung Galaxy, and iPhone. 
 
-The site is accessible here: [Marvelous Rentals.](https://barosa19.github.io/marvelous-rental/)
+The site is accessible here: [Marvelous Rentals.](https://jaminhlo.github.io/m2-rentals/)
 
 ## Visuals
 ![This is an image](./assets/images/homepage-screenshot.png)
